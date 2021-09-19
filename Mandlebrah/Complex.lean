@@ -17,13 +17,20 @@ def mul (a b: Complex) : Complex :=
 instance : Add Complex where
   add x y := Complex.add x y
 
+instance : Neg Complex where
+  neg x := Complex.mk (-x.real) (-x.i) 
+
+instance : Sub Complex where
+  sub x y := Complex.add x (-y)
+
 instance : Mul Complex where
   mul := Complex.mul
 
+instance : HMul Complex Float Complex where
+  hMul x y := Complex.mk (x.real * y)  (x.i * y) 
 
 instance : OfNat Complex x where
   ofNat := Complex.mk (Float.ofNat x) 0
-
 
 class OfComplex (α : Type _) (c : Complex) where
   ofComplex :α
@@ -31,10 +38,11 @@ class OfComplex (α : Type _) (c : Complex) where
 def Abs (c : Complex) : Float :=
   Float.sqrt (c.real ^ 2.0 + c.i ^ 2.0)
 
+instance : LT Complex where
+  lt x y := (Abs (x - y)) < 0
+
 instance (x: Complex ): OfComplex Float x where
   ofComplex := (Complex.Abs x)
-
-def x : Complex := Complex.mk 0.5 0.5
 
 def pow : Complex → Nat → Complex
   | c, 0 => 1
