@@ -39,10 +39,6 @@ instance : OfNat Complex x where
 class OfComplex (α : Type _) (c : Complex) where
   ofComplex :α
 
--- @[defaultInstance 100]
--- instance (f:Complex) : OfComplex Complex c where
---   ofComplex := c
-
 def Complex.Abs (c : Complex) : Float :=
   Float.sqrt (c.real ^ 2.0 + c.i ^ 2.0)
 
@@ -50,9 +46,6 @@ instance (x: Complex ): OfComplex Float x where
   ofComplex := (Complex.Abs x)
 
 def x : Complex := Complex.mk 0.5 0.5
--- def g : Float := OfComplex x
-
--- #eval OfComplex (Complex.mk 1 1)
 
 def Complex.pow : Complex → Nat → Complex
   | c, 0 => 1
@@ -75,13 +68,8 @@ def range (default: a) : Array a → Nat → Array a
   | acc, 0 => acc
   | acc, Nat.succ x => range default (Array.append acc #[default]) x
 
-def xs := range 0 #[] 10
--- #eval range (range 0 #[] 10) #[] 10
-
 def twoDeeRange (default: a) (x y: Nat) : Array (Array a) :=
   range (range default #[] x) #[] y
-
--- #eval twoDeeRange 0 10 10
 
 def buildDimToComplex (xMax yMax : Nat) (cMin cMax : Complex) : Nat → Nat → Complex :=
   let xScalar : Float := (cMax.real - cMin.real) / Float.ofNat xMax
@@ -148,6 +136,3 @@ def main : IO Unit
 -- #eval x ^ 2
 -- #eval Complex.Abs y
 -- #eval stepIn 1000000.0 1000000 y 0
-
-  -- 
-  -- ac + adi + bci + bdi2
